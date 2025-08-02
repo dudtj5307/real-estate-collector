@@ -89,9 +89,9 @@ def get_complex_datas(cortarNames):
     datas = {}
     for cortarName in cortarNames:
         cortarNo = stState.town_name2no[cortarName]
-        complex_name2no = main.get_list_complex(cortarNo)
+        # complex_name2no = main.get_list_complex(cortarNo)
 
-        datas[cortarName] = complex_name2no
+        datas[cortarName] = main.get_list_complex(cortarNo)
 
     return datas
 
