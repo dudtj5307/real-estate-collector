@@ -1,7 +1,6 @@
 from collections import defaultdict
 
-def cookies1():
-    cookies = {
+cookies_cortar = {
         'NNB': '7QZASPCQWY2GO',
         'NAC': 'XTILBYwYWaTy',
         'nid_inf': '1730481252',
@@ -20,9 +19,8 @@ def cookies1():
         'NID_SES': 'AAABh66HYkbRQDg1PTLCY+FClLAW0U3in6di1Bl+3Ff50oMTatvECDIH5EwNwTNDZusloWo4waegBzsUJzQ2gnbFsjN14uJNVp04oKt0ML1T+TFqDWzX1Ae1icC3FWKolrlOhxtJE+3OCOZtrm00PDKUgNW7HI2nL4GiDQJvbbYKc1h7KNJOHDgUJ5QSNnSGry/yuyHH7vb4xxcwpA5caxvYyVbJUDJiFg6qMH6vNHmXSDnlpdI8h0gcVwhu/ACJrwpKXxsM+v24OWYIeVnMHrkmsHcjOOTw0e38Hq+0GvPphatZFPrKUnGKsTxzdTqudMAuXDrk0UJnQvSzxUgXiN9vG7CkJuxMlHhBIt0JcnPusQh7kqZAUF81Pa6fxWye3xxOVQabAbFZWiHFBQcmIUyOqGlkVMsuCkTqGhmdGfTJfdJ9m3slSkuZfiCIv1pZ8nqtkUaak1zy8RrmYwcCA+Bfn2+hwUqDj05g7PtItg1V8v5iTaHkkfW4mSs/AJvhCvP99vldNMTCCu6X2Qz8/V2Vm6I=',
         'BUC': '5RtqaIXo1q2wljbIW2koinNz3gQ9Uk7dUsj5YeoscTQ=',
     }
-    return cookies
 
-def headers(complexNo='3704'):
+def headers_cortar(complexNo='3704'):
     _headers = {
         'accept': '*/*',
         'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
@@ -39,8 +37,6 @@ def headers(complexNo='3704'):
     }
     return _headers
 
-COOKIES = defaultdict(lambda: cookies1)
-# COOKIES = {'0000000000': cookies1,
-#            }
 
-HEADERS = defaultdict(lambda: headers)
+if __name__ == '__main__':
+    pass
