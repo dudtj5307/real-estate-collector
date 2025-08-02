@@ -2,6 +2,7 @@ import time
 
 import streamlit as st
 import main
+import pandas as pd
 
 st.set_page_config(page_title="네이버 부동산 검색", page_icon="🏠", layout="wide", initial_sidebar_state="auto")
 st.markdown(
@@ -25,8 +26,27 @@ if 'disabled' not in stState:
 if "search_clicked" not in stState:
     stState.search_clicked = False
 
-def update_buttons():
-    pass
+# def flatten_dictionary(dic):
+#     flat = {}
+#     for town, complex_data in dic.items():
+#         _temp = []
+#         for complexName, articles in complex_data.items():
+#             for article in articles:
+#                 _temp.append([complexName]+article)
+#         flat[town] = _temp
+#     return flat
+
+def flatten_dictionary(dic):
+    flat = {'동': [], '상호명':[], '유형':[], '가격':[], '동/호':[], '층':[], '방향': [], '상세정보':[], '키워드':[]}
+    for town, complex_data in dic.items():
+        for complexName, articles in complex_data.items():
+            for article in articles:
+                flat['동'].append(town)
+                flat['상호명'].append(complexName)
+                for key, item in zip(['유형','가격','동/호','층','방향','상세정보','키워드'],article):
+                    flat[key].append(item)
+    return flat
+
 
 def reload_city():
     city_data = main.get_list_city()
@@ -72,8 +92,6 @@ def get_complex_datas(cortarNames):
         complex_name2no = main.get_list_complex(cortarNo)
 
         datas[cortarName] = complex_name2no
-        # for key, val in complex_name2no.items():
-        #     datas[cortarName][key] = main.get_list_products(val)
 
     return datas
 
@@ -95,11 +113,28 @@ def run_search():
 
     cortarNames = [name for name in stState.selected_towns]
     complex_datas = get_complex_datas(cortarNames)
+    for town, complexes in list(complex_datas.items()):
+        for complexName, complexNo in list(complexes.items()):
+            products = main.get_list_products(complexNo)
+            if products:
+                complex_datas[town][complexName] = main.get_list_products(complexNo)
+            else:
+                del complex_datas[town][complexName]
 
-
-    st.write(complex_datas)
-
+    complex_list = flatten_dictionary(complex_datas)
+    st.dataframe(complex_list, use_container_width=True, height=3000)
 
 
 if __name__ == '__main__':
     reload_city()
+    #
+    # dic = {"신봉동": {
+    #            {"수지스카이뷰푸르지오(주상복합)":["매매","7억 4,000","102동","고/27","남향","추천급매전세안고조율", ["4년이내","급매","방세개","화장실두개"]],
+    #                                          ["매매","7억 4,000","102동","고/27","남향","추천급매전세안고조율", ["4년이내","급매","방세개","화장실두개"]]},
+    #            {"신봉마을1단지용인신봉센트레빌": [["매매", "7억 4,000", "102동", "고/27", "남향", "추천급매전세안고조율", ["4년이내", "급매", "방세개", "화장실두개"]],
+    #                                          ["매매", "7억 4,000", "102동", "고/27", "남향", "추천급매전세안고조율", ["4년이내", "급매", "방세개", "화장실두개"]]]}
+    #
+    #         }
+    # }
+    # print(flatten_dictionary(dic))
+
